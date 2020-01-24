@@ -1,7 +1,7 @@
 // Requires
 const express = require('express');
 const path = require('path');
-const MySQL = require('../mysql/mysql');
+const MySQL = require('./mysql/mysql');
 
 // Inicializar variables
 const app = express();
@@ -15,12 +15,13 @@ app.use(function(req, res, next) {
 });
 
 // crear instancia de la base de datos probar singleton
-//MySQL.getInstance
+//MySQL.instance
 
 MySQL.ejecutarQuery(`
-SELECT * FROM usuario
+SELECT * FROM cao_status_os
 `, (err, usuario) => {
     if (err) {
+        console.error('Error en consulta!');
         console.log(err);
     }
     console.log(usuario);

@@ -30,11 +30,13 @@ class MySQL {
                 return callback(err);
             }
             if (results.length === 0) {
-                callback('El registro solicitado no existe!');
+                callback('No hay registros para mostrar!');
             } else {
                 callback(null, results);
             }
         });
+
+        this.instance.cnn.end();
     }
 
     conectarDB() {
