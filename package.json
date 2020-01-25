@@ -11,6 +11,8 @@
     "license": "ISC",
     "dependencies": {
         "express": "^4.17.1",
-        "mysql": "github:mysqljs/mysql"
+        "mysql": "github:mysqljs/mysql",
+        "mysql2": "^2.1.0",
+        "sequelize": "^5.21.3"
     }
 }

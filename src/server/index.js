@@ -1,7 +1,8 @@
 // Requires
 const express = require('express');
 const path = require('path');
-const MySQL = require('./mysql/mysql');
+const config = require('./config/config');
+const User = require('./mysql/test');
 
 // Inicializar variables
 const app = express();
@@ -14,10 +15,16 @@ app.use(function(req, res, next) {
     next();
 });
 
-// crear instancia de la base de datos probar singleton
-//MySQL.instance
+User.findAll({ attributes: ['tipo_usuario'] })
+    .then(user => {
+        console.log(JSON.stringify(user))
+    })
+    .catch(err => {
+        console.log(err)
+    })
 
-MySQL.ejecutarQuery(`
+
+/*MySQL.ejecutarQuery(`
 SELECT * FROM cao_status_os
 `, (err, usuario) => {
     if (err) {
@@ -26,12 +33,12 @@ SELECT * FROM cao_status_os
     }
     console.log(usuario);
 
-});
+});*/
 
 // habilitar la carpeta public
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 // Escuchar peticiones
-app.listen(3000, () => {
-    console.log('Servidor corriendo en puerto 3000');
+app.listen(process.env.PORT, () => {
+    console.log('Servidor corriendo en puerto: ', process.env.PORT);
 });

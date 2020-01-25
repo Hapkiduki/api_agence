@@ -49,4 +49,4 @@ class MySQL {
         });
     }
 }
-module.exports = MySQL;
+module.exports = MySQL.instance;
