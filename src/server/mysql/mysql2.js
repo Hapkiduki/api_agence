@@ -12,7 +12,7 @@ class MySQL2 {
             dialect: 'mysql',
             define: { engine: 'MYISAM' },
             pool: {
-                acquire: 90000,
+                acquire: 30000,
                 idle: 10000
             }
         });
