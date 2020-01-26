@@ -2,7 +2,13 @@ const express = require('express');
 const Sequelize = require('sequelize');
 
 // Models
-const { PermissaoSistema, Usuario } = require('../models/relationships');
+const {
+    PermissaoSistema,
+    Usuario,
+    Fatura,
+    Os,
+    Salario
+} = require('../models/relationships');
 
 const app = express();
 const Op = Sequelize.Op;
@@ -11,7 +17,10 @@ const Op = Sequelize.Op;
 app.get('/consultores', (req, res) => {
 
     Usuario.findAll({
-            //attributes: ['co_usuario', 'no_usuario'],
+            //attributes: ['co_usuaario', 'no_usuario'],
+            order: [
+                ['no_usuario', 'ASC']
+            ],
             include: [{
                 model: PermissaoSistema,
                 as: 'permissao_sistema',
@@ -28,6 +37,59 @@ app.get('/consultores', (req, res) => {
             res.json({
                 ok: true,
                 usuario
+            });
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        })
+
+});
+
+app.get('/relatorio/:usuario', (req, res) => {
+
+
+    let usuario = req.params.usuario
+    let brut_salario = 0;
+
+    Salario.findOne({
+            attributes: ['brut_salario'],
+            where: { co_usuario: usuario },
+        })
+        .then(data => {
+
+            if (data != undefined) {
+                brut_salario = data.brut_salario;
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            brut_salario = err
+        });
+
+
+    Fatura.findAll({
+            attributes: { exclude: ['co_os'] },
+            include: [{
+                attributes: { exclude: ['co_usuario'] },
+                model: Os,
+                as: 'os',
+                where: {
+                    co_usuario: usuario,
+                },
+                include: {
+                    model: Usuario,
+                }
+            }],
+        })
+        .then(fatura => {
+            res.json({
+                ok: true,
+                fatura,
+                brut_salario
             });
         })
         .catch(err => {

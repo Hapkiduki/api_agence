@@ -10,11 +10,7 @@ class MySQL2 {
         this.cnn = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
             host: process.env.DB_HOST,
             dialect: 'mysql',
-            define: { engine: 'MYISAM' },
-            pool: {
-                acquire: 30000,
-                idle: 10000
-            }
+            define: { engine: 'MYISAM' }
         });
 
 
