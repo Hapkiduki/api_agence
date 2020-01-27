@@ -6,6 +6,7 @@ const Fatura = MySQL2.instance.cnn.define('fatura', {
     co_os: { type: Sequelize.INTEGER },
     valor: { type: Sequelize.FLOAT },
     total_imp_inc: { type: Sequelize.FLOAT },
+    data_emissao: { type: Sequelize.DATE },
 }, {
     timestamps: false,
     freezeTableName: true,

@@ -73,6 +73,9 @@ app.get('/relatorio/:usuario', (req, res) => {
 
     Fatura.findAll({
             attributes: { exclude: ['co_os'] },
+            order: [
+                ['data_emissao', 'ASC']
+            ],
             include: [{
                 attributes: { exclude: ['co_usuario'] },
                 model: Os,
